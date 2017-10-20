@@ -1,0 +1,74 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+{% load i18n widget_tweaks %}
+
+
+{% block content %}
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">Hashtags</h2>
+    </div>
+  </header>
+  <div class="container" style="height: 770px;">
+      <div class="col-lg-10 hashtags">
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h3 class="h4">Add hashtag</h3>
+        </div>
+    <form class="form-horizontal" role="form" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.errors %}
+                <div class="form-group has-error">
+                  {% if field.name != "user" %}
+                    <label class="col-sm-6 control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                  {% else %}
+                    <label></label>
+                  {% endif %}
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                        {{ field|attr:"class:mx-sm-3 form-control control-hashtags" }}
+                        <small class="error-text"> {{ field.errors.as_text }}</small>
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group">
+                  {% if field.name != "user" %}
+                    <label class="col-sm-6 control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                  {% else %}
+                    <label></label>
+                  {% endif %}
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                        {{ field|attr:"class:mx-sm-3 form-control control-hashtags" }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">{% trans "Add hashtag" %}</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+</div>
+  <!-- Tags -->
+  <!-- Page Footer-->
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+{% endblock %}

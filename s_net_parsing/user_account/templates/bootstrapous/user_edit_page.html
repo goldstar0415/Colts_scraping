@@ -1,0 +1,63 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+{% load i18n widget_tweaks %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">User profile</h2>
+    </div>
+  </header>
+  <div class="container" style="height: 1000px;">
+
+                <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <label for="{{ form.avatar.id_for_label }}">{{ form.avatar.label }}</label>
+                        <p>{{ form.avatar }}</p>
+                        <p>{{ form.avatar.help_text }}</p>
+                        <small class="error-text"> {{ form.errors.avatar }}</small>
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                        {{ form.first_name|add_class:'form-control' }}
+                        <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>
+                        {{ form.bio|add_class:'form-control' }}
+                        <small class="error-text"> {{ form.errors.bio }}</small>
+                        <label for="{{ form.country_name.id_for_label }}">{{ form.country_name.label }}</label>
+                        {{ form.country_name|add_class:'form-control' }}
+                        <small class="error-text">{{ form.errors.country_name }}</small>
+                        <label for="{{ form.company.id_for_label }}">{{ form.company.label }}</label>
+                        {{ form.company|add_class:'form-control' }}
+                        <small class="error-text">{{ form.errors.company }}</small>
+                        <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
+                        {{ form.birth_date|attr:"id:datetimepicker4"|add_class:'form-control' }}
+                        <p>{{ form.birth_date.help_text }}</p>
+                        <small class="error-text">{{ form.errors.birth_date }}</small>
+                    </div>
+                    <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                    </div>
+                </form>
+</div>
+
+
+  <!-- Page Footer-->
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+{%endif%}
+
+{% endblock %}

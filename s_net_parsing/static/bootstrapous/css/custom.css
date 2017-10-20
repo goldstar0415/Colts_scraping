@@ -1,0 +1,86 @@
+.error-text {
+    color: red;
+}
+
+.hashtags {
+    margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.news_item {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 96%;
+}
+
+.box-shadow {
+    box-shadow: 0 4px 10px 2px rgba(156, 164, 171, 0.2);
+}
+
+.news_text {
+    margin-left: 5%;
+    height: auto;
+    overflow: hidden;
+    white-space: pre-wrap;
+    text-indent: 2em;
+    cursor: pointer;
+}
+
+.profile-edit{
+    cursor: pointer;
+}
+
+.icons {
+    margin-top: 10px;
+}
+
+.start_list .icons {
+    padding-bottom: 10px;
+}
+
+
+.header-plank{
+    margin-left: 5%;
+    overflow: hidden;
+    white-space: pre-wrap;
+    justify-content: center;
+}
+
+.buttons {
+    text-align: center;
+}
+
+#load-posts .card {
+    margin-bottom: 30px;
+}
+
+#loading-div {
+    box-sizing: border-box;
+    margin-top: 10%;
+    z-index: 1100;
+}
+
+#loading-indicator {
+    width: 60px;
+    z-index: 1100;
+}
+
+.bar-chart-custom {
+    margin: 5px;
+}
+
+/*.form-control */
+.control-hashtags {
+    display: inline-block !important; 
+    width: auto !important;
+    vertical-align: middle;
+}
+
+.control-hashtags label {
+    text-transform: capitalize;
+}

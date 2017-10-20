@@ -1,0 +1,7 @@
+              {% for article in posts_likes %}
+              <div class="item d-flex align-items-center">
+                <div class="image"><i class="icon-mail"></i></div>
+                <div class="text">
+                    <h3 class="h5">{{ article.text }}</h3><small>Posted on {{ article.date_published|date:"d, M Y" }} {{ article.date_published|time:"H:i" }} by <a href="{{ article.author.0.link }}">{{ article.author.0.name }}.</a></small></div>
+              </div>
+              {% endfor %}

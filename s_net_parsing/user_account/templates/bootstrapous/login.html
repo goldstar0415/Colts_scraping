@@ -1,0 +1,59 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+
+
+{% block content %}
+    <div class="page login-page">
+      <div class="container d-flex align-items-center">
+        <div class="form-holder has-shadow">
+          <div class="row">
+            <!-- Logo & Information Panel-->
+            <div class="col-lg-6">
+              <div class="info d-flex align-items-center">
+                <div class="content">
+                  <div class="logo">
+                    <h1>Hashtag Parsing</h1>
+                  </div>
+                  <p>System for monitoring your brand on Facebook, Instagram, Twitter, Linkedin and Pinterest</p>
+                </div>
+              </div>
+            </div>
+            <!-- Form Panel    -->
+            <div class="col-lg-6 bg-white">
+              <div class="form d-flex align-items-center">
+                <div class="content">
+                  <form id="login-form" method="post">
+                    {% csrf_token %}
+                      <div class = 'form-comment'> 
+                        <div class = 'errortext'>
+                            {{ form.non_field_errors }}
+                            {% for field in form.fields %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <p class="errorlist">{{ error }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                      </div>
+                    <div class="form-group">
+                      <input id="{{ form.username.id_for_label }}" type="text" name="{{ form.username.html_name }}" required="" class="input-material">
+                      <label for="login-username" class="label-material">User Name</label>
+                    </div>
+                    <div class="form-group">
+                      <input id="{{ form.password.id_for_label }}" type="password" name="{{ form.password.html_name }}" required="" class="input-material">
+                      <label for="login-password" class="label-material">Password</label>
+                    </div><button type="submit" id="login" href="index.html" class="btn btn-primary">Login</button><br>
+                  </form><a href="#" class="forgot-pass">Forgot Password?</a><br><small>Do not have an account? </small><a href="register.html" class="signup">Signup</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyrights text-center">
+        <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+        <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+      </div>
+    </div>
+{% endblock %}

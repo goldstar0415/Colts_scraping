@@ -1,0 +1,92 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+
+
+{% block content %}
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">Hashtags</h2>
+    </div>
+  </header>
+
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <div class="client card">
+                            <div class="card-body text-center">
+                                <button type="button" onclick="add_hashtag()" class="btn btn-success">Add new hashtag</button>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-lg-4"></div>
+            </div>
+        </div>
+
+
+
+  <!-- Tags -->
+    <div class="container-fluid">
+        <div class="card-body">
+          <table class="table table-striped ">
+            <thead>
+              <tr>
+                <th>Tag text</th>
+                <th>Tag social network</th>
+              </tr>
+            </thead>
+            <tbody>
+            {%for guid, hashtags_networks in user_hashtags.items%}
+              <tr>
+                <td>{{ hashtags_networks.0 }}</td>
+                <td>    
+                  <ul>
+                  {%for network in hashtags_networks.1 %}
+                      <li style="text-transform: capitalize;">
+                        {{ network }}
+                        <div style="display: hidden;" hashtagGuid={{ guid }} hashtagNetwork={{ network }}></div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td><button type="button" onclick="edit_hashtag('{{ guid }}')" class="btn btn-info">Edit</button></td>
+              </tr>
+            {%endfor%}
+            </tbody>
+
+          </table>
+        </div>
+  </div>
+
+  <!-- Page Footer-->
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+
+        function add_hashtag()
+        {
+             location.href = "/accounts/profile/hashtags/add/";
+        };
+        function edit_hashtag(tag_guid)
+        {
+             location.href = "/accounts/profile/hashtags/" + tag_guid;
+        };
+ 
+    </script>
+{% endblock %}

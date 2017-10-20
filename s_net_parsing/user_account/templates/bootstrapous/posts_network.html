@@ -1,0 +1,84 @@
+{% extends "bootstrapous/posts.html"%}
+{% load staticfiles %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">{{ network }}</h2>
+    </div>
+  </header>
+  <div>
+  <section class="buttons padding-top center">
+    <div class="container-fluid">
+    {%for network in user_networks%}
+        <button type="button" class="btn btn-info btn-posts" onclick="get_network_posts_hashtag('{{ network }}')">{{ network }}</button>
+    {%endfor%}
+    </div>
+  </section>
+<section class="posts padding-top">
+  <div class="container-fluid">
+<ul>
+<div class="infinite-container">
+{%for post in posts_for_current_network%}
+    <li class="news_item box-shadow infinite-item">
+        <div>
+            <h3 class="header-plank">{{ post.title }}</h3>
+            <p class="news_text">{{ post.text }}</p>
+        </div>
+        <div class="icons">
+            <span class="date">{{ post.date_published|date:"d, D M Y" }} {{ post.date_published|time:"H:i" }}</span>
+        </div>
+    </li>
+{%endfor%}
+</div>
+</ul>
+
+{% if posts.has_next %}
+    <a class="infinite-more-link" href="?page={{ posts_for_current_network.next_page_number }}"></a>
+{% endif %}
+
+  <div class="loading" style="display: none;">
+        Loading...
+  </div>
+</div>
+</section>
+
+</div>
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function get_network_posts_hashtag(network_name)
+        {
+            location.href = "/accounts/profile/posts/" + network_name;
+        };
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">Dashboard</h2>
+    </div>
+  </header>
+  <!-- Dashboard Counts Section-->
+  <section class="dashboard-counts no-padding-bottom">
+    <div class="container-fluid">
+      <div class="row bg-white has-shadow">
+        <!-- Item -->
+        <div class="col-xl-3 col-sm-6">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-violet"><i class="icon-padnote"></i></div>
+            <div class="title"><span>Allowed<br>Networks</span>
+            </div>
+            <div class="number"><strong>{{ allowed_networks }}</strong></div>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="col-xl-3 col-sm-6">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-red"><i class="icon-padnote"></i></div>
+            <div class="title"><span>User<br>Networks</span>
+            </div>
+            <div class="number"><strong>{{ user_networks }}</strong></div>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="col-xl-3 col-sm-6">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-green"><i class="icon-user"></i></div>
+            <div class="title"><span>User<br>Hashtags</span>
+            </div>
+            <div class="number"><strong>{{ user_hashtags }}</strong></div>
+          </div>
+        </div>
+        <!-- Item -->
+        <div class="col-xl-3 col-sm-6">
+          <div class="item d-flex align-items-center">
+            <div class="icon bg-orange"><i class="icon-bill"></i></div>
+            <div class="title"><span>User<br>Posts</span>
+            </div>
+            <div class="number"><strong>{{ total_posts_with_user_hashtags.0.count }}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Dashboard Header Section    -->
+  <section class="dashboard-header">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Statistics -->
+        <div class="statistics col-lg-3 col-12">
+          <div class="statistic d-flex align-items-center bg-white has-shadow">
+            <div class="icon bg-red"><i class="fa fa-tasks"></i></div>
+            <div class="text"><strong>{{ mean_network_parsing_time }}</strong><br><small>Mean Network Parsing Time</small></div>
+          </div>
+          <div class="statistic d-flex align-items-center bg-white has-shadow">
+            <div class="icon bg-green"><i class="fa fa-thumbs-up"></i></div>
+            <div class="text" id="top-post-likes-count"></div>
+          </div>
+          <div class="statistic d-flex align-items-center bg-white has-shadow">
+            <div class="icon bg-orange"><i class="fa fa-share"></i></div>
+            <div class="text" id="top-post-shares-count"></div>
+          </div>
+        </div>
+        <!-- Line Chart            -->
+        <div class="chart col-lg-6 col-12">
+          <div class="bg-white d-flex align-items-center justify-content-center has-shadow">
+            <canvas id="lineChartPublishedParsed"></canvas>
+          </div>
+        </div>
+        <div class="chart col-lg-3 col-12">
+          <div class="bar-chart-custom has-shadow bg-white">
+            <div class="title"><strong class="text-violet">Most referenced Hashtags</strong><br><small>TOP 10</small></div>
+            <canvas id="barChartTopTags2"  style="height: 55px; padding: 10px;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!-- Client Section-->
+  <section class="client no-padding-top">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Client Profile -->
+        <div class="col-lg-6">
+          <div class="articles card">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h3">5 Top Liked Articles</h2>
+            </div>
+            <div class="card-body no-padding" id="load-posts-likes">
+                <div id="loading-div-likes"><img src="{% static 'loading_spinner.gif' %}" id="loading-indicator"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="articles card">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h3">5 Most Shared Articles</h2>
+            </div>
+            <div class="card-body no-padding" id="load-posts-shares"> 
+                <div id="loading-div-shares"><img src="{% static 'loading_spinner.gif' %}" id="loading-indicator"></div>
+            </div>
+          </div>
+        </div>
+  </section>
+  <!-- Most recent Section-->
+  <section class="most-recent no-padding-top">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Client Profile -->
+        <div class="col-lg-12">
+          <div class="articles card">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h3">5 Most Recent Articles</h2>
+            </div>
+            <div class="card-body no-padding" id="load-posts-recent">
+                <div id="loading-div-recent"><img src="{% static 'loading_spinner.gif' %}" id="loading-indicator"></div>
+            </div>
+          </div>
+        </div>
+  </section>
+  <!-- Feeds Section-->
+  <section class="feeds no-padding-top">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Trending Articles-->
+
+      </div>
+    </div>
+  </section>
+  <!-- Page Footer-->
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</div>
+</div>
+
+{% block extra_js %}
+<script>
+var $loading = $('#loading-div-likes').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show().align();
+      })
+      .ajaxStop(function () {
+        $loading.hide();
+});
+var $loading = $('#loading-div-shares').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show().align();
+      })
+      .ajaxStop(function () {
+        $loading.hide();
+});
+var $loading = $('#loading-div-recent').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show().align();
+      })
+      .ajaxStop(function () {
+        $loading.hide();
+});
+$( document ).ready(function() {
+    $.get("{% url 'posts-likes' %}", function( data ) {
+        $("#load-posts-likes").append(data);
+    })
+});
+$( document ).ready(function() {
+    $.get("{% url 'posts-shares' %}", function( data ) {
+        $("#load-posts-shares").append(data);
+    })
+});
+$( document ).ready(function() {
+    $.get("{% url 'posts-recent' %}", function( data ) {
+        $("#load-posts-recent").append(data);
+    })
+});
+$( document ).ready(function() {
+    $.get("{% url 'top-post-likes-count' %}", function( data ) {
+        $("#top-post-likes-count").append(data);
+    })
+});
+$( document ).ready(function() {
+    $.get("{% url 'top-post-shares-count' %}", function( data ) {
+        $("#top-post-shares-count").append(data);
+    })
+});
+</script>
+<script>
+$( document ).ready(function () {
+  var densityCanvas = document.getElementById("barChartTopTags2");
+
+  Chart.defaults.global.defaultFontFamily = "Lato";
+  Chart.defaults.global.defaultFontSize = 18;
+
+  var barChartTopTags2 = {
+    data: [{% for num in ten_most_rated_hashtags %} {{ num|get_number }}, {% endfor %}],
+    backgroundColor: [
+      'rgba(0, 99, 132, 0.6)',
+      'rgba(30, 99, 132, 0.6)',
+      'rgba(60, 99, 132, 0.6)',
+      'rgba(90, 99, 132, 0.6)',
+      'rgba(120, 99, 132, 0.6)',
+      'rgba(150, 99, 132, 0.6)',
+      'rgba(180, 99, 132, 0.6)',
+      'rgba(210, 99, 132, 0.6)',
+      'rgba(240, 99, 132, 0.6)',
+      'rgba(270, 99, 132, 0.6)',
+      'rgba(300, 99, 132, 0.6)'
+    ],
+    borderColor: [
+      'rgba(0, 99, 132, 1)',
+      'rgba(30, 99, 132, 1)',
+      'rgba(60, 99, 132, 1)',
+      'rgba(90, 99, 132, 1)',
+      'rgba(120, 99, 132, 1)',
+      'rgba(150, 99, 132, 1)',
+      'rgba(180, 99, 132, 1)',
+      'rgba(210, 99, 132, 1)',
+      'rgba(240, 99, 132, 1)',
+      'rgba(270, 99, 132, 1)',
+      'rgba(300, 99, 132, 1)'
+    ],
+    borderWidth: 2,
+    hoverBorderWidth: 0
+  };
+
+  var chartOptions = {
+    scales: 
+    {
+      xAxes: [{
+          display: false
+      }],
+      yAxes: [{
+        display: false,
+        barPercentage: 0.8
+      }]
+    },
+    legend: {
+        display: false
+    },
+    elements: {
+      rectangle: {
+        borderSkipped: 'left',
+      }
+    }
+  };
+ 
+  var barChart = new Chart(densityCanvas, {
+    type: 'bar',
+    data: {
+      labels: [{% for num in ten_most_rated_hashtags %} "{{ num|get_string }}", {% endfor %}],
+      datasets: [barChartTopTags2],
+    },
+    options: chartOptions
+  });
+});
+$( document ).ready(function () {
+  var ctx1 = $("canvas").get(0).getContext("2d");
+  var gradient1 = ctx1.createLinearGradient(150, 0, 150, 300);
+  gradient1.addColorStop(0, 'rgba(133, 180, 242, 0.91)');
+  gradient1.addColorStop(1, 'rgba(255, 119, 119, 0.94)');
+
+  var gradient2 = ctx1.createLinearGradient(146.000, 0.000, 154.000, 300.000);
+  gradient2.addColorStop(0, 'rgba(104, 179, 112, 0.85)');
+  gradient2.addColorStop(1, 'rgba(76, 162, 205, 0.85)');
+      
+  var lineChartPublishedParsed = document.getElementById("lineChartPublishedParsed");
+
+  Chart.defaults.global.defaultFontFamily = "Lato";
+  Chart.defaults.global.defaultFontSize = 14;
+
+  var publishedData = {
+    labels: [{% for date in date_posts %} "{{ date|get_date }}", {% endfor %}],
+    datasets: [{
+      label: "Number of posts published for the last 30 days",
+      data: [{% for num_published in date_posts %}{{ num_published|get_number_published }}, {% endfor %}],
+      fill: true,
+      lineTension: 0.3,
+      backgroundColor: gradient1,
+      borderColor: gradient1,
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      borderWidth: 1,
+      pointBorderColor: gradient1,
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: gradient1,
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      spanGaps: false
+    }]
+  };
+
+  var chartOptions = {
+      scales: 
+    {
+      yAxes: [{
+        display: false,
+      }]
+    },
+    legend: {
+      display: true,
+      position: 'top',
+      labels: {
+        boxWidth: 80,
+        fontColor: 'black'
+      }
+    }
+  };
+
+  var lineChart = new Chart(lineChartPublishedParsed, {
+    type: 'line',
+    data: publishedData,
+    options: chartOptions
+  });
+});
+</script>
+{% endblock%}
+
+{% endblock %}

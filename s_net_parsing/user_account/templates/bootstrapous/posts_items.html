@@ -1,0 +1,32 @@
+{% for post in posts %}
+<div class="recent-updates card">
+  <div class="card-body no-padding" >
+
+    <div class="item clearfix">
+      <div class="feed d-flex justify-content-between">
+        <div class="feed-body d-flex justify-content-between">
+          {% if post.author.0.link %}
+            <a href="post.author.0.link" class="feed-profile">
+              {% if post.author.0.pic %}
+                <img src="{{ post.author.0.pic }}" alt="person" class="img-fluid rounded-circle mr-2" width="80px">
+              {% else %}
+                <img src="/static/default.jpg" width="80px" alt="person" class="img-fluid rounded-circle">
+              {% endif %}
+            </a>
+          {% endif %}
+          <div class="content">
+            <h5><a href="{{ post.author.0.link }}">{{ post.author.0.name }}</a></h5><span>Posted on {{ post.network }} </span>
+            <!--div class="full-date"><small></small></div-->
+          </div>
+        </div>
+        <div class="date text-right"><small>{{ post.date_published|date:'g:i a, j M Y' }}</small></div>
+      </div>
+      {% if post.photo %}
+      <div class="d-flex justify-content-center my-4"><img src="{{ post.photo }}" /></div>
+      {% endif %}
+      <div class="quote">{{ post.text|urlize|linebreaksbr }}</div>
+      <div class="CTAs pull-right"><i class="fa fa-thumbs-up"> </i> {{ post.likes|default:0 }} Likes</div>
+    </div>
+  </div>
+</div>
+{% endfor %}

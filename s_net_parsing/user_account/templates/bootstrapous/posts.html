@@ -1,0 +1,120 @@
+{% extends "bootstrapous/base.html"%}
+{% load staticfiles %}
+
+
+{% block content %}
+<div class="content-inner">
+  <!-- Page Header-->
+  <header class="page-header">
+    <div class="container-fluid">
+      <h2 class="no-margin-bottom">All posts</h2>
+    </div>
+  </header>
+  <!-- <div class="container" style="height: 1000px;"> -->
+
+  <div class="container-fluid" class="buttons center">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h3 class="h4">Posts from Social Networks</h3>
+        </div>
+        <div class="card-body">
+          <form name="networks" id="user-networks" method="GET" action="#" class="form-inline">
+          {% for network in user_networks %}
+            <div class="input-group mr-4">
+              <label for="id_{{ network.guid }}" class="form-check-label mx-2">
+                <span class="input-group-addon">
+                  <input type="checkbox" id="id_{{ network.guid }}" class="form-check-input" name="networks" value="{{ network.guid }}" checked>
+                </span>
+                <span class="mx-2">{{ network.name|capfirst }}</span>
+              </label>
+            </div>
+          {% endfor %}
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Recent Updates-->
+      <div class="col-lg-8 mx-auto" id="load-posts">
+        <div id="loading-div"><img src="{% static 'loading_spinner.gif' %}" id="loading-indicator"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 mx-auto mb-3" id="load-posts">
+        <center><button type="button" class="btn btn-primary" id="more-posts" data-offset="10" data-limit="10" >Load more posts</button></center>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Footer-->
+  <footer class="main-footer">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <p>Social Parsing Club &copy; 2017-2019</p>
+        </div>
+        <div class="col-sm-6 text-right">
+          <p>Design by <a href="https://bootstrapious.com/admin-templates" class="external">Bootstrapious</a></p>
+          <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    var $loading = $('#loading-div').hide();
+    $(document)
+      .ajaxStart(function () {
+        $loading.show().align();
+      })
+      .ajaxStop(function () {
+        $loading.hide();
+    });
+
+    function get_networks() {
+        var checkboxes = [];
+        $("#user-networks input[name=networks]:checked").each(function() {
+            checkboxes.push($(this).val());
+        });
+        checkboxes = checkboxes.join(',')
+        return checkboxes;
+    };
+
+    $( document ).ready(function() {
+      $.get("{% url 'posts-data' %}", function( data ) {
+        $("#load-posts").append(data);
+      });
+
+      $("#more-posts").on('click', function() {
+        offset = parseInt($(this).attr('data-offset'));
+        limit = parseInt($(this).attr('data-limit'));
+        params = {'offset': offset, 'limit': limit, networks: get_networks()}
+        $(this).attr('data-offset', (offset + limit));
+
+        $.get("{% url 'posts-data' %}", params, function( data ) {
+          $("#load-posts").append(data);
+
+        });
+      });
+
+      $("#user-networks input[name=networks]").on('change', function() {
+        params = {networks: get_networks()}
+        $.get("{% url 'posts-data' %}", params, function( data ) {
+          $("#load-posts").html("");
+          $("#load-posts").append(data);
+        });
+      });
+      
+    });
+
+</script>
+{% endblock %}
